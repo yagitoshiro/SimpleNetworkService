@@ -4,18 +4,24 @@ function ApplicationWindow(title) {
 		backgroundColor:'white'
 	});
 
-  var View;
-  if(Ti.App.Properties.hasProperty('username')){
-    // ホーム画面を表示
-    View = require('ui/views/Home');
-    self.tabBarHidden = false;
-  }else{
-    // ユーザー登録画面を表示
-    View = require('ui/views/Subscribe');
-    self.tabBarHidden = true;
-  }
-  var view = new View();
+  var View, view;
+  // ホーム画面を表示
+  View = require('ui/views/Home');
+  view = new View();
   self.add(view);
+
+  if(!Ti.App.Properties.hasProperty('username')){
+    // ユーザー登録画面を表示
+    var modalWindow = Ti.UI.createWindow({
+      backgroundColor: 'White'
+    });
+    View = require('ui/views/Subscribe');
+    view = new View(modalWindow);
+    modalWindow.add(view);
+    self.addEventListener('open', function(){
+      modalWindow.open({modal:true});
+    });
+  }
 	
 	return self;
 }

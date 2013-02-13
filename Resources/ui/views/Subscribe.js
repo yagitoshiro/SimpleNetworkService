@@ -1,4 +1,4 @@
-function Subscribe(){
+function Subscribe(modalWindow){
   var self = Ti.UI.createScrollView({
     layout:'vertical',
     contentWidth: 'auto',
@@ -45,6 +45,21 @@ function Subscribe(){
   self.add(submitButton);
 
   submitButton.addEventListener('click', function(e){
+
+    var loading = Ti.UI.createView({
+      top: 0,
+      backgroundColor: 'Black',
+      opacity: 0.7
+    });
+    modalWindow.add(loading);
+    var ind = Ti.UI.createActivityIndicator({
+      message: '登録中',
+      color: 'White',
+      width: Ti.UI.SIZE
+    });
+    loading.add(ind);
+    ind.show();
+
     if(Ti.Network.online){
       var Cloud = require('ti.cloud');
       Cloud.debug = true;
@@ -83,15 +98,19 @@ function Subscribe(){
             //登録成功
             Ti.App.Properties.setString('username', username);
             Ti.App.Properties.setString('password', password);
+            modalWindow.close();
           }else{
             //登録失敗のエラー処理
+            modalWindow.remove(loading);
             alert(e.message);
           }
         });
       }else{
+        modalWindow.remove(loading);
         alert(error_messages.join("\n"));
       }
     }else{
+      modalWindow.remove(loading);
       alert("ごめんね、ネットワークが繋がってないみたい。調べてみて！");
     }
   });
