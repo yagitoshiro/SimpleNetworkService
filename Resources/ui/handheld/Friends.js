@@ -1,9 +1,7 @@
 function Friends(){
   var Cloud = require('ti.cloud');
-  var login_params = {
-    login: Ti.App.Properties.getString('username'),
-    password: Ti.App.Properties.getString('password')
-  };
+  var account = require('lib/account').account;
+  var login_params = account.login_params;
   var self = Ti.UI.createWindow({
     backgroundColor: 'White'
   });
@@ -62,7 +60,7 @@ function Friends(){
         user_ids.push(rows[i].id);
       }
     }
-    alert(user_ids.join(','));
+    //alert(user_ids.join(','));
     Cloud.Users.login(login_params, function(e){
       if(e.success){
         Cloud.Friends.add({user_ids: user_ids.join(',')}, function(e){
