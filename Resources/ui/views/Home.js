@@ -8,15 +8,23 @@ function Home(parentWindow){
     data: data
   });
 
+  table.addEventListener('click', function(e){
+    var post_data = e.row.data;
+    var Window = require('ui/handheld/Post');
+    var window = new Window(post_data);
+    parentWindow.containingTab.open(window);
+  });
+
   function loadData(){
     if(Ti.App.Properties.hasProperty('username')){
       Cloud.debug = true;
       Cloud.Users.login(account.login_params(), function(e){
-        Cloud.Posts.query({}, function(e){
+        Cloud.Posts.query({order: "-created_at"}, function(e){
           var data = [];
           var posts = e.posts;
           var length = posts.length;
           for(var i = 0; i < length; i++){
+            Ti.API.info(JSON.stringify(posts[i]));
             data.push({title: posts[i].title, data: posts[i]});
           }
           table.setData(data);

@@ -7,7 +7,7 @@ function ApplicationWindow(title) {
   var View, view;
   // ホーム画面を表示
   View = require('ui/views/Home');
-  view = new View();
+  view = new View(self);
   self.add(view);
 
   if(!Ti.App.Properties.hasProperty('username')){

@@ -95,7 +95,7 @@ function Requests(){
     Cloud.Users.login(account.login_params(), function(e){
       if(e.success){
         Cloud.Friends.approve({user_ids: user_ids.join(',')}, function(e){
-          alert("リクエストを送りました");
+          alert(user_ids.length.toString() + "人を承認しました");
           loadData();
         });
       }
