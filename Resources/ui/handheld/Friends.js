@@ -2,6 +2,7 @@ function Friends(){
   var Cloud = require('ti.cloud');
   var account = require('lib/account').account;
   var login_params = account.login_params;
+
   var self = Ti.UI.createWindow({
     backgroundColor: 'White'
   });
