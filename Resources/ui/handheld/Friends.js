@@ -1,7 +1,6 @@
 function Friends(){
   var Cloud = require('ti.cloud');
   var account = require('lib/account').account;
-  var login_params = account.login_params;
 
   var self = Ti.UI.createWindow({
     backgroundColor: 'White'
@@ -14,7 +13,7 @@ function Friends(){
 
   self.addEventListener('focus', function(e){
     Cloud.debug = true;
-    Cloud.Users.login(login_params, function(e){
+    Cloud.Users.login(account.login_params(), function(e){
       if(e.success){
         var params = {
           per_page: 50,
@@ -62,7 +61,7 @@ function Friends(){
       }
     }
     //alert(user_ids.join(','));
-    Cloud.Users.login(login_params, function(e){
+    Cloud.Users.login(account.login_params(), function(e){
       if(e.success){
         Cloud.Friends.add({user_ids: user_ids.join(',')}, function(e){
           alert("リクエストを送りました");
