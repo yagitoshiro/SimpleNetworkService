@@ -30,9 +30,19 @@ function ApplicationTabGroup(Window) {
   });
   requests.containingTab = tab3;
 
+  var List = require('ui/handheld/List');
+  var list = new List();
+  var tab4 = Ti.UI.createTab({
+		title: 'フレンド一覧',
+		icon: '/images/KS_nav_ui.png',
+		window: list
+  });
+  list.containingTab = tab4;
+
 	self.addTab(tab1);
 	self.addTab(tab2);
 	self.addTab(tab3);
+	self.addTab(tab4);
 	
 	return self;
 }

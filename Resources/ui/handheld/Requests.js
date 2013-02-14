@@ -23,11 +23,34 @@ function Requests(){
     }
   });
 
+  var status = true;
+
   function loadData(){
+
+    if(status === false){
+      return;
+    }
+    status = false;
+
+    var loading = Ti.UI.createView({
+      top: 0,
+      backgroundColor: 'Black',
+      opacity: 0.7
+    });
+    var ind = Ti.UI.createActivityIndicator({
+      color: 'White',
+      message: '送信中',
+      width: Ti.UI.SIZE
+    });
+    loading.add(ind);
+    ind.show();
+    self.add(loading);
     Cloud.Users.login(account.login_params, function(e){
       if(e.success){
         Cloud.Friends.requests(function(e){
           var requests = e.friend_requests;
+          self.remove(loading);
+          status = true;
           if(requests){
             var length = requests.length;
             var data = [];
@@ -37,6 +60,9 @@ function Requests(){
             table.setData(data);
           }
         });
+      }else{
+        self.remove(loading);
+        status = true;
       }
     });
   }
