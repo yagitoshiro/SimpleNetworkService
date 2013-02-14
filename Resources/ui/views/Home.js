@@ -25,6 +25,7 @@ function Home(parentWindow){
           var length = posts.length;
           for(var i = 0; i < length; i++){
             Ti.API.info(JSON.stringify(posts[i]));
+            if(!posts[i].title){continue;}
             data.push({title: posts[i].title, data: posts[i]});
           }
           table.setData(data);
@@ -36,6 +37,18 @@ function Home(parentWindow){
     loadData();
   });
   self.add(table);
+
+  //投稿！
+  createButton = Ti.UI.createButton({
+    systemButton: Titanium.UI.iPhone.SystemButton.COMPOSE
+  });
+  parentWindow.rightNavButton = createButton;
+  createButton.addEventListener('click', function(e){
+    var Window = require('ui/handheld/Compose');
+    var window = new Window();
+    window.open({modal: true});
+  });
+
   return self;
 }
 
