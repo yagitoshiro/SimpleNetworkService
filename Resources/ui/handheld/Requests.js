@@ -14,7 +14,7 @@ function Requests(){
     data: data
   });
 
-  self.addEventListener('focus', function(e){
+  function loadData(){
     Cloud.Users.login(account.login_params, function(e){
       if(e.success){
         Cloud.Friends.requests(function(e){
@@ -30,6 +30,18 @@ function Requests(){
         });
       }
     });
+  }
+
+  self.addEventListener('focus', function(e){
+    loadData();
+  });
+
+  var reloadButton = Ti.UI.createButton({
+    systemButton: Titanium.UI.iPhone.SystemButton.REFRESH
+  });
+  self.leftNavButton = reloadButton;
+  reloadButton.addEventListener('click', function(){
+    loadData();
   });
 
   self.add(table);
